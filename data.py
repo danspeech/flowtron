@@ -36,8 +36,15 @@ def load_filepaths_and_text(filename, split="|"):
 
 def load_wav_to_torch(full_path):
     """ Loads wavdata into torch array """
-    sampling_rate, data = read(full_path)
-    return torch.from_numpy(data).float(), sampling_rate
+    sampling_rate, sound = read(full_path)
+
+    if len(sound.shape) > 1:
+        if sound.shape[1] == 1:
+            sound = sound.squeeze()
+        else:
+            sound = sound.mean(axis=1)  # multiple channels, average
+
+    return torch.FloatTensor(sound.astype(np.float32)), sampling_rate
 
 
 class Data(torch.utils.data.Dataset):
@@ -72,10 +79,8 @@ class Data(torch.utils.data.Dataset):
         return d
 
     def get_mel(self, audio):
-        audio_norm = audio / self.max_wav_value
-        audio_norm = audio_norm.unsqueeze(0)
-        audio_norm = torch.autograd.Variable(audio_norm, requires_grad=False)
-        melspec = self.stft.mel_spectrogram(audio_norm)
+        audio = torch.autograd.Variable(audio.unsqueeze(0), requires_grad=False)
+        melspec = self.stft.mel_spectrogram(audio)
         melspec = torch.squeeze(melspec, 0)
         return melspec
 
