@@ -4,3 +4,5 @@ audiopaths
 
 .idea
 **/__pycache__/
+
+inference_data
