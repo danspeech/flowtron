@@ -1,3 +1,6 @@
 models
 results
 audiopaths
+
+.idea
+**/__pycache__/
