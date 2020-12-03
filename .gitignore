@@ -6,3 +6,11 @@ audiopaths
 **/__pycache__/
 
 inference_data
+
+aggregate_results.py
+
+results
+
+target_dir
+
+results_ld

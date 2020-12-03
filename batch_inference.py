@@ -147,7 +147,7 @@ def batch_inference(flowtron_path, waveglow_path, synth_text_data_path, sigma):
     frame_interval = [-75, -60, -45, -30, -15, 0, 15, 30, 45, 60, 75]
 
     for i, sentence in enumerate(synth_sentences):
-        if i < 139:
+        if i < 16090:
             continue
         print("During sentence: {0}".format(i+1))
         # Pick random speaker id for sentence
@@ -216,7 +216,7 @@ def batch_inference(flowtron_path, waveglow_path, synth_text_data_path, sigma):
             # normalize audio for now
             audio = audio / np.abs(audio).max()
 
-            write(os.path.join(fpath, '{}_sid{}_sigma{}.wav'.format(n_frames, speaker_id, sigma)),
+            write(os.path.join(fpath, '{}_{}_sid{}_sigma{}.wav'.format(i+1, n_frames, speaker_id, sigma)),
                   data_config['sampling_rate'], audio)
 
         else:
